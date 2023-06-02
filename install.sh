@@ -8,10 +8,8 @@ echo '--------------------------------------------------'
 username=user
 hostname=linuxPC
 pass=1111
-disk_root=/dev/sda3
-disk_boot=/dev/sda1
 #Раскомментируйте необходимое:
-disk_swap=/dev/sda2
+
 #ucode=amd-ucode
 #ucode=intel-ucode
 sleep=5
@@ -26,23 +24,21 @@ echo '--------------------------------------------------'
 echo '--------------------------------------------------'
 echo '|             Форматирование диска               |'
 echo '--------------------------------------------------'
-echo 'Format disk '$disk_root'@'$disk_boot'				'
-echo '--------------------------------------------------'
 #sleep:
 sleep $sleep
 
 #formating disk:
 parted /dev/sda mklabel gpt
-sleep=5
+sleep=10
 parted /dev/sda mkpart primary 1MB 512MB
-sleep=5
+sleep=10
 parted /dev/sda mkpart primary 512MB 2560MB
-sleep=5
+sleep=10
 parted /dev/sda mkpart primary 2560MB 100%
-sleep=5
+sleep=10
 parted /dev/sda set 1 boot on
-mkfs.ext4 -f $disk_root
-sleep=5
+mkfs.ext4 /dev/sda3
+sleep=10
 #formating disk:
 mkfs.vfat $disk_boot
 sleep=5
@@ -65,8 +61,8 @@ echo '--------------------------------------------------'
 mount /dev/sda3 /mnt
 mkdir /mnt/boot
 mkdir /mnt/boot/efi
-mount /dev/sda1 /mnt/boot/efi
 swapon /dev/sda2
+mount /dev/sda1 /mnt/boot/efi
 #sleep:
 sleep $sleep
 #sleep:
