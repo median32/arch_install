@@ -72,9 +72,9 @@ echo '--------------------------------------------------'
 #install arch:
 pacstrap -K /mnt base base-devel linux-firmware refind efibootmgr iwd networkmanager micro htop btrfs-progs git ntfs-3g $ucode --noconfirm
 #fstab generation:
-#genfstab -U -p /mnt >> /mnt/etc/fstab
+genfstab -U -p /mnt >> /mnt/etc/fstab
 #chroot:
-#mkdir -p /mnt/home/$username/
+mkdir -p /mnt/home/$username/
 #раскомментируйте необходимое:
 #chroot nvidia:
 #cp -f arch-install-btrfs/nvidia/install.sh /mnt/home/$username/
@@ -83,19 +83,19 @@ pacstrap -K /mnt base base-devel linux-firmware refind efibootmgr iwd networkman
 #chroot nvidia:
 #cp -f arch-install-btrfs/nvidia/install3.sh /mnt/home/$username/
 #chroot mesa:
-#cp -f arch-install-btrfs/amd/install.sh /mnt/home/$username/
+cp -f arch_install/install.sh /mnt/home/$username/
 #chroot mesa:
-#cp -f arch-install-btrfs/amd/install2.sh /mnt/home/$username/
+cp -f arch_install/install2.sh /mnt/home/$username/
 #chroot mesa:
-#cp -f arch-install-btrfs/amd/install3.sh /mnt/home/$username/
+cp -f arch_install/install3.sh /mnt/home/$username/
 #sleep:
-#sleep $sleep
+sleep $sleep
 #chroot /mnt:
-#arch-chroot /mnt sh -c "$(cat /mnt/home/$username/install2.sh)" $username $hostname $pass
+arch-chroot /mnt sh -c "$(cat /mnt/home/$username/install2.sh)" $username $hostname $pass
 #sleep:
-#sleep $sleep
-#echo '--------------------------------------------------'
-#echo '|                 Перезагрузка                   |'
-#echo '--------------------------------------------------'
-#umount -R /mnt/
-#reboot
+sleep $sleep
+echo '--------------------------------------------------'
+echo '|                 Перезагрузка                   |'
+echo '--------------------------------------------------'
+umount -R /mnt/
+reboot
