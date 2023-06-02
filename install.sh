@@ -52,16 +52,9 @@ mkswap $disk_swap
 sleep=5
 swapon $disk_swap
 #mount mnt:
-mount $disk_root /mnt
-#cd /mnt:
-cd /mnt
-#create boot
-mkdir /mnt/boot
-cd /mnt/boot
-mkdir efi
 cd
 #umount:
-umount /mnt
+
 #sleep
 sleep $sleep
 #sleep:
@@ -70,12 +63,12 @@ echo '|             Монтирование разделов               |'
 echo '--------------------------------------------------'
 #mount disk:
 mount /dev/sda3 /mnt
+cd /mnt
+mkdir /mnt/boot
+cd /boot
+mkdir /mnt/boot/efi
 mount /dev/sda1 /mnt/boot/efi
 swapon /dev/sda2
-#mkdir folders:
-mkdir /mnt/{var,home,boot}
-#mkdir /boot/efi:
-mkdir /mnt/boot/efi
 #sleep:
 sleep $sleep
 #sleep:
@@ -96,19 +89,19 @@ mkdir -p /mnt/home/$username/
 #chroot nvidia:
 #cp -f arch-install-btrfs/nvidia/install3.sh /mnt/home/$username/
 #chroot mesa:
-cp -f arch-install-btrfs/amd/install.sh /mnt/home/$username/
+#cp -f arch-install-btrfs/amd/install.sh /mnt/home/$username/
 #chroot mesa:
-cp -f arch-install-btrfs/amd/install2.sh /mnt/home/$username/
+#cp -f arch-install-btrfs/amd/install2.sh /mnt/home/$username/
 #chroot mesa:
-cp -f arch-install-btrfs/amd/install3.sh /mnt/home/$username/
+#cp -f arch-install-btrfs/amd/install3.sh /mnt/home/$username/
 #sleep:
-sleep $sleep
+#sleep $sleep
 #chroot /mnt:
-arch-chroot /mnt sh -c "$(cat /mnt/home/$username/install2.sh)" $username $hostname $pass
+#arch-chroot /mnt sh -c "$(cat /mnt/home/$username/install2.sh)" $username $hostname $pass
 #sleep:
-sleep $sleep
-echo '--------------------------------------------------'
-echo '|                 Перезагрузка                   |'
-echo '--------------------------------------------------'
-umount -R /mnt/
-reboot
+#sleep $sleep
+#echo '--------------------------------------------------'
+#echo '|                 Перезагрузка                   |'
+#echo '--------------------------------------------------'
+#umount -R /mnt/
+#reboot
