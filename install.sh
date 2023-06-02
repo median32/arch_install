@@ -5,15 +5,15 @@ echo '|                Config Install                  |'
 echo '--------------------------------------------------'
 
 #Измените на своё:
-username=hacker
-hostname=world
-pass=1811
-disk_root=/dev/nvme0n1p5
-disk_boot=/dev/nvme0n1p4
+username=user
+hostname=linuxPC
+pass=1111
+disk_root=/dev/sda3
+disk_boot=/dev/sda1
 #Раскомментируйте необходимое:
-disk_swap=/dev/nvme0n1p6
+disk_swap=/dev/sda2
 #ucode=amd-ucode
-ucode=intel-ucode
+#ucode=intel-ucode
 sleep=5
 
 #setfont cyr-sun16:
@@ -32,24 +32,33 @@ echo '--------------------------------------------------'
 sleep $sleep
 
 #formating disk:
-mkfs.btrfs -f $disk_root
+parted /dev/sda mklabel gpt
+sleep=5
+parted /dev/sda mkpart primary 1MB 512MB
+sleep=5
+parted /dev/sda mkpart primary 512MB 2560MB
+sleep=5
+parted /dev/sda mkpart primary 2560MB 100%
+sleep=5
+parted /dev/sda set 1 boot on
+mkfs.ext4 -f $disk_root
+sleep=5
 #formating disk:
 mkfs.vfat $disk_boot
+sleep=5
 #раскомментируйте необходимое:
 #formating disk:
 mkswap $disk_swap
+sleep=5
 swapon $disk_swap
 #mount mnt:
 mount $disk_root /mnt
 #cd /mnt:
 cd /mnt
-#su cr:
-btrfs su cr @
-#su cr:
-btrfs su cr @home
-#su cr:
-btrfs su cr @var
-#cd:
+#create boot
+mkdir /mnt/boot
+cd /mnt/boot
+mkdir efi
 cd
 #umount:
 umount /mnt
@@ -60,15 +69,13 @@ echo '--------------------------------------------------'
 echo '|             Монтирование разделов               |'
 echo '--------------------------------------------------'
 #mount disk:
-mount -o noatime,compress=zstd:3,space_cache=v2,discard=async,subvol=@ $disk_root /mnt
+mount /dev/sda3 /mnt
+mount /dev/sda1 /mnt/boot/efi
+swapon /dev/sda2
 #mkdir folders:
 mkdir /mnt/{var,home,boot}
 #mkdir /boot/efi:
 mkdir /mnt/boot/efi
-#mount disk:
-mount -o noatime,compress=zstd:3,space_cache=v2,discard=async,subvol=@home $disk_root /mnt/home
-#mount disk:
-mount -o noatime,compress=zstd:3,space_cache=v2,discard=async,subvol=@var $disk_root /mnt/var
 #sleep:
 sleep $sleep
 #sleep:
