@@ -63,9 +63,7 @@ echo '|             Монтирование разделов               |'
 echo '--------------------------------------------------'
 #mount disk:
 mount /dev/sda3 /mnt
-cd /mnt
 mkdir /mnt/boot
-cd /boot
 mkdir /mnt/boot/efi
 mount /dev/sda1 /mnt/boot/efi
 swapon /dev/sda2
@@ -78,9 +76,9 @@ echo '--------------------------------------------------'
 #install arch:
 pacstrap -K /mnt base base-devel linux-firmware refind efibootmgr iwd networkmanager micro htop btrfs-progs git ntfs-3g $ucode --noconfirm
 #fstab generation:
-genfstab -U -p /mnt >> /mnt/etc/fstab
+#genfstab -U -p /mnt >> /mnt/etc/fstab
 #chroot:
-mkdir -p /mnt/home/$username/
+#mkdir -p /mnt/home/$username/
 #раскомментируйте необходимое:
 #chroot nvidia:
 #cp -f arch-install-btrfs/nvidia/install.sh /mnt/home/$username/
